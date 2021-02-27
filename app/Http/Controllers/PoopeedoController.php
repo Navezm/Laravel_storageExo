@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Poopeedo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PoopeedoController extends Controller
 {
@@ -14,8 +15,13 @@ class PoopeedoController extends Controller
      */
     public function index()
     {
-        
+        $DB = Poopeedo::all();
         return view('welcome', compact('DB'));
+    }
+
+    public function bo()
+    {
+        return view('pages.backOffice');
     }
 
     /**
@@ -36,7 +42,8 @@ class PoopeedoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Storage::put('public/img', $request->file('file'));
+        return redirect()->back();
     }
 
     /**

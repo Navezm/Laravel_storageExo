@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PoopeedoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PoopeedoController::class,'index']);
+Route::get('/bo', [PoopeedoController::class,'bo']);
+Route::post('/uploadFile', [PoopeedoController::class,'store']);
