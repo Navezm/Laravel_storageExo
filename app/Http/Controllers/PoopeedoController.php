@@ -42,7 +42,11 @@ class PoopeedoController extends Controller
      */
     public function store(Request $request)
     {
-        Storage::put('public/img', $request->file('file'));
+        // dd($request->request);
+        Storage::put('public', $request->file('src'));
+        $newEntry = new Poopeedo;
+        $newEntry->src = $request->src;
+        $newEntry->save();
         return redirect()->back();
     }
 
