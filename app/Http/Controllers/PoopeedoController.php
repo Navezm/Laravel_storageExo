@@ -45,7 +45,7 @@ class PoopeedoController extends Controller
         // dd($request->request);
         Storage::put('public', $request->file('src'));
         $newEntry = new Poopeedo;
-        $newEntry->src = $request->src;
+        $newEntry->src = $request->file('src')->hashName();
         $newEntry->save();
         return redirect()->back();
     }
