@@ -21,7 +21,8 @@ class PoopeedoController extends Controller
 
     public function bo()
     {
-        return view('pages.backOffice');
+        $DB = Poopeedo::all();
+        return view('pages.backOffice', compact('DB'));
     }
 
     /**
@@ -29,9 +30,10 @@ class PoopeedoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function edit($id)
     {
-        //
+        $show = Poopeedo::find($id);
+        return view('pages.edit', compact('show'));
     }
 
     /**
@@ -50,48 +52,23 @@ class PoopeedoController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Poopeedo  $poopeedo
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Poopeedo $poopeedo)
+    public function update($id, Request $request)
     {
-        //
+        $img = Poopeedo::find($id);
+        Storage::delete('public/storage/'.$img->src);
+        $img->delete();
+        Storage::put('public', $request->file('src'));
+        $newEntry = new Poopeedo;
+        $newEntry->src = $request->file('src')->hashName();
+        $newEntry->save();
+        return redirect('/');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Poopeedo  $poopeedo
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Poopeedo $poopeedo)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Poopeedo  $poopeedo
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Poopeedo $poopeedo)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Poopeedo  $poopeedo
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Poopeedo $poopeedo)
-    {
-        //
+        $destroy = Poopeedo::find($id);
+        Storage::delete('public/storage/'.$destroy->src);
+        $destroy->delete();
+        return redirect()->back();
     }
 }
