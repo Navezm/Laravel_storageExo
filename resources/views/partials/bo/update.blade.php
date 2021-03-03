@@ -12,7 +12,7 @@
     @foreach ($DB as $item)
         <tr>
             <th scope="row">{{$item->id}}</th>
-            <td>{{$item->src}}</td>
+            <td><img height="50px" src="{{asset('storage/'.$item->src)}}" alt=""></td>
             <td>
                 <a class="btn btn-info" href="/editImg/{{$item->id}}">Edit</a>
             </td>

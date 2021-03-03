@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Storage;
 
 class PoopeedoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $DB = Poopeedo::all();
@@ -25,23 +20,12 @@ class PoopeedoController extends Controller
         return view('pages.backOffice', compact('DB'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $show = Poopeedo::find($id);
         return view('pages.edit', compact('show'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         // dd($request->request);
@@ -55,12 +39,10 @@ class PoopeedoController extends Controller
     public function update($id, Request $request)
     {
         $img = Poopeedo::find($id);
-        Storage::delete('public/storage/'.$img->src);
-        $img->delete();
+        Storage::delete('public/'.$img->src);
         Storage::put('public', $request->file('src'));
-        $newEntry = new Poopeedo;
-        $newEntry->src = $request->file('src')->hashName();
-        $newEntry->save();
+        $img->src = $request->file('src')->hashName();
+        $img->save();
         return redirect('/');
     }
 
